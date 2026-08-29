@@ -13,7 +13,14 @@ It is a **passive, read-only scanner**: it only sends standard echo requests to
 addresses inside your own subnet and reads already-known ARP entries. Nothing
 is sent to remote hosts and no privileged sockets are opened.
 
+Per device it shows: **IP, MAC, hostname (reverse-DNS), vendor (MAC OUI
+lookup, your own machine is flagged `*you*`), OS hint (from ICMP TTL),
+state, uptime, RTT and lost probes**. The first scan runs in the background, so
+the TUI paints an immediate "scanning…" splash and fills in live results as
+replies arrive — no blank 15-second wait.
+
 Zero dependencies — pure Python standard library, colors via ANSI escapes.
+The table adapts its columns to the terminal width (full / mid / mini).
 
 ## Screenshot
 
@@ -64,6 +71,7 @@ lanmoon               # auto-detect interface/subnet, scan every 15s
 lanmoon -i 10         # scan every 10 seconds
 lanmoon -n 24         # force a /24 sweep (overrides auto-detected mask)
 lanmoon --no-host     # skip reverse-DNS hostname lookups
+lanmoon --no-vendor   # skip MAC vendor (OUI) lookup
 ```
 
 | flag           | meaning                                         |
@@ -71,6 +79,7 @@ lanmoon --no-host     # skip reverse-DNS hostname lookups
 | `-i, --interval N` | scan interval in seconds (default 15)       |
 | `-n, --netmask N`  | force CIDR, e.g. `24` (overrides detection) |
 | `--no-host`        | disable reverse-DNS host lookups            |
+| `--no-vendor`      | disable MAC vendor (OUI) lookup             |
 
 Controls: press `q` (or `Ctrl-C`) to quit.
 
